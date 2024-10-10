@@ -1,0 +1,11 @@
+[package]
+name = "use"
+type = "bin"
+authors = [""]
+compiler_version = ">=0.35.0"
+
+[dependencies]
+# bignum = {path = "../noir-bignum"}
+# bignum = {tag = "v0.3.5", git = "https://github.com/noir-lang/noir-bignum"}
+bignum = {tag = "mc/refactor", git = "https://github.com/noir-lang/noir-bignum"}
+# bignum = {tag = "mc/alt-refactor", git = "https://github.com/noir-lang/noir-bignum"}
