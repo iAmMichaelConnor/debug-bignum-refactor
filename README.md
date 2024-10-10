@@ -2,11 +2,14 @@
 
 ## Nargo version:
 nargo version = 0.35.0
+
 noirc version = 0.35.0+999071b80e61a37cb994a4e359eabbac27cd53f1
+
 (git version hash: 999071b80e61a37cb994a4e359eabbac27cd53f1, is dirty: false)
 
 ## bb version:
 bb --version   
+
 0.56.0%
 
 ## About
@@ -23,6 +26,7 @@ Currently:
 The main files each contain 3 versions of a `main()` function, which I was using to compare gate counts.
 
 The refactored `BigNum` has the same gate counts as Zac's approach.
+
 The refactored `RuntimeBigNum` has much higher gate counts than Zac's runtime bignum approach (which in Zac's impl uses a struct called `BigNumInstance`). THIS GATE DISCREPENCY THE THING I'D LIKE TO UNDERSTAND.
 
 - A `BN254_Fq` `BigNum` main(). Not needed for this debugging. The constraints match Zac's constraints.
@@ -75,7 +79,7 @@ Run:
 `bb gates -b target/use.json -h`
 
 
-You should see a gate count of `16577`. That's too high.
+You should see a gate count of `16577`. That's too high. It should be around `11185`.
 
 
 Then comment-out that test and instead uncomment the 2nd main() in the file:
@@ -114,3 +118,5 @@ Run:
 `nargo compile --silence-warnings --force`
 
 `bb gates -b target/use.json -h`
+
+This should give a gate count of `11185`. This matches the Zac branch version of BigNum too.
