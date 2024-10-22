@@ -18,10 +18,10 @@ use dep::bignum::{
 struct Test2048Params{}
 
 // See https://github.com/noir-lang/noir/issues/6172
-#[test]
-fn silence_warning() {
-    let _  = Test2048Params {};
-}
+// #[test]
+// fn silence_warning() {
+//     let _  = Test2048Params {};
+// }
 
 impl BigNumParamsGetter<18, 2048> for Test2048Params {
     fn get_params() -> BigNumParams<18, 2048> {

@@ -3,14 +3,14 @@
 ## Nargo version:
 nargo version = 0.35.0
 
-noirc version = 0.35.0+999071b80e61a37cb994a4e359eabbac27cd53f1
+noirc version = 0.35.0+e6db535b69e6769fa3f2c85a0685640c92ac147b
 
-(git version hash: 999071b80e61a37cb994a4e359eabbac27cd53f1, is dirty: false)
+(git version hash: e6db535b69e6769fa3f2c85a0685640c92ac147b, is dirty: false)
 
 ## bb version:
 bb --version   
 
-0.56.0%
+0.58.0%
 
 ## About
 
