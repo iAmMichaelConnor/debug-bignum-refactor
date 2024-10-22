@@ -4,16 +4,14 @@ use dep::bignum::{
     utils::u60_representation::U60Repr
 };
 
-
 //**************************************************************************
 //**************************************************************************
 //**************************************************************************
 // THIS FILE IS ONLY COMPATIBLE WITH DEP:
-// bignum = {tag = "mc/alt-refactor", git = "https://github.com/noir-lang/noir-bignum"}
+// bignum = {tag = "mc/refactor", git = "https://github.com/noir-lang/noir-bignum"}
 //**************************************************************************
 //**************************************************************************
 //**************************************************************************
-
 
 struct Test2048Params{}
 
@@ -23,9 +21,10 @@ fn silence_warning() {
     let _  = Test2048Params {};
 }
 
-impl BigNumParamsGetter<18, 2048> for Test2048Params {
-    fn get_params() -> BigNumParams<18, 2048> {
+impl BigNumParamsGetter<18> for Test2048Params {
+    fn get_params() -> BigNumParams<18> {
         let has_multiplicative_inverse = false;
+        let modulus_bits_getter = || 2048;
         let modulus: [Field; 18] = [
             0x0000000000000000000000000000000000c0a197a5ae0fcdceb052c9732614fe,
             0x0000000000000000000000000000000000656ae034423283422243918ab83be3,
@@ -68,14 +67,15 @@ impl BigNumParamsGetter<18, 2048> for Test2048Params {
         ];
         BigNumParams::new(
             has_multiplicative_inverse,
+            modulus_bits_getter,
             modulus,
             redc_param
         )
     }
 }
 
-type BN254_Fq = BigNum<3, 254, BN254_Fq_Params>;
-type U256_Fq = BigNum<3, 257, BN254_Fq_Params>;
+type BN254_Fq = BigNum<3, BN254_Fq_Params>;
+type U256_Fq = BigNum<3, BN254_Fq_Params>;
 
 // fn main(x: u8) {
 //     let _a: BN254_Fq = BigNum::__derive_from_seed([x,2,3,4]);
@@ -106,7 +106,7 @@ type U256_Fq = BigNum<3, 257, BN254_Fq_Params>;
 
 // THIS IS THE BIGNUM VERSION
 
-type BigNum_2048 = BigNum<18, 2048, Test2048Params>;
+// type BigNum_2048 = BigNum<18, Test2048Params>;
 
 // fn main(x: u8) {
 //     let _a: BigNum_2048 = BigNum::__derive_from_seed([x,2,3,4]);
@@ -136,8 +136,9 @@ type BigNum_2048 = BigNum<18, 2048, Test2048Params>;
 
 
 
-comptime fn get_2048_BN_params() -> BigNumParams<18, 2048> {
+comptime fn get_2048_BN_params() -> BigNumParams<18> {
     let has_multiplicative_inverse = false;
+    let modulus_bits_getter = || 2048;
     let modulus: [Field; 18] = [
         0x0000000000000000000000000000000000c0a197a5ae0fcdceb052c9732614fe,
         0x0000000000000000000000000000000000656ae034423283422243918ab83be3,
@@ -180,13 +181,15 @@ comptime fn get_2048_BN_params() -> BigNumParams<18, 2048> {
     ];
     BigNumParams::new(
         has_multiplicative_inverse,
+        modulus_bits_getter,
         modulus,
         redc_param
     )
 }
 
-comptime global MY_RUNTIME_BIGNUM_PARAMS: BigNumParams<18, 2048> = BigNumParams {
+global MY_RUNTIME_BIGNUM_PARAMS: BigNumParams<18> = BigNumParams {
     has_multiplicative_inverse: false,
+    modulus_bits_getter: || 2048,
     modulus: [
         0x0000000000000000000000000000000000c0a197a5ae0fcdceb052c9732614fe,
         0x0000000000000000000000000000000000656ae034423283422243918ab83be3,
@@ -235,10 +238,10 @@ comptime global MY_RUNTIME_BIGNUM_PARAMS: BigNumParams<18, 2048> = BigNumParams 
 
 // THIS IS THE RUNTIME-BIGNUM VERSION
 
-type MyRuntimeBigNum = RuntimeBigNum<18, 2048>;
+type MyRuntimeBigNum = RuntimeBigNum<18>;
 
 fn main(x: u8) {
-    let params = comptime {MY_RUNTIME_BIGNUM_PARAMS};
+    let params = MY_RUNTIME_BIGNUM_PARAMS;
     println(params);
     let _a: MyRuntimeBigNum = RuntimeBigNum::__derive_from_seed(params, [x,2,3,4]);
     let mut a = _a;

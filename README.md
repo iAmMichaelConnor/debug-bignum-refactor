@@ -14,28 +14,27 @@ bb --version
 
 ## About
 
-There are 3 main files: one for each branch of the bignum lib that I'm comparing. I've been manually renaming the one that I want to test to be `main.nr`.
+There are 4 main files: one for each branch of the bignum lib that I'm comparing. I've been manually renaming the one that I want to test to be `main.nr`.
 
 Currently:
 
-- main.nr -> mc/refactor
+- main.nr -> mc/alt-alt-refactor - the currently-working refactor.
 - main.nr.old -> Zac's approach on main
-- main.nr.alt -> mc/alt-refactor (where I tried to make sure that the params were definitely evaluated at compile time, by riddling the codebase with an annoying `MOD` numeric generic to convey the modulus_bits of the bignum).
+- main.nr.alt-refactor -> mc/alt-refactor
+- main.nr.refactor -> mc/refactor
 
 
-The main files each contain 3 versions of a `main()` function, which I was using to compare gate counts.
+The main files each contain 4 versions of a `main()` function, which I was using to compare gate counts.
 
 The refactored `BigNum` has the same gate counts as Zac's approach.
 
-The refactored `RuntimeBigNum` has much higher gate counts than Zac's runtime bignum approach (which in Zac's impl uses a struct called `BigNumInstance`). THIS GATE DISCREPENCY THE THING I'D LIKE TO UNDERSTAND.
+The refactored `RuntimeBigNum` also now has the same gate counts as Zac's approach.
 
-- A `BN254_Fq` `BigNum` main(). Not needed for this debugging. The constraints match Zac's constraints.
-- A 2048-bit `BigNum` main(). These constraints match Zac's constraints.
+- A `BN254_Fq` `BigNum` main().
+- A 2048-bit `BigNum` main().
 - A 2048-bit `RuntimeBigNum` main().
-    - The constraints of this main() should match its `BigNum` counterpart. **This is probably the easiest avenue for debugging the high constraint counts, because it avoids needing to switch between branches of bignum and between the different `main.nr` files in this repo.**
-    - The constraints of this main() should _also_ match the `BigNumInstance` approach of Zac's.
 
-Currently the 3rd `main()` is the commented-out one in all files.
+Currently the 3rd `main()` is the un-commented-out one in all files.
 
 ## Flow to compare gate counts:
 
